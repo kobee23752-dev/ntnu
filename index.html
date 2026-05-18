@@ -369,11 +369,44 @@
     grid-template-columns: 1fr 1fr;
     gap: 16px;
   }
+  /* 手機版背景遮罩 */
+  .backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 90;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
   @media (max-width: 900px) {
     .layout { grid-template-columns: 1fr; }
-    aside { position: relative; height: auto; }
-    main { padding: 32px 24px; }
+    aside {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 280px;
+      height: 100vh;
+      z-index: 95;
+      transform: translateX(-100%);
+      transition: transform 0.25s ease;
+      opacity: 1;
+    }
+    /* 手機版：mobile-open 才顯示側邊欄 */
+    .layout.mobile-open aside {
+      transform: translateX(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    main {
+      padding: 80px 20px 60px;
+      max-width: 100%;
+    }
     .grid-2 { grid-template-columns: 1fr; }
+    /* 手機版漢堡按鈕一律顯示，且永遠在最上層 */
+    .hamburger {
+      z-index: 100;
+    }
   }
   @media print {
     aside { display: none; }
@@ -386,6 +419,7 @@
 <button class="hamburger" id="hamburger" aria-label="切換側邊選單">
   <span></span><span></span><span></span>
 </button>
+<div class="backdrop" id="backdrop"></div>
 <div class="layout" id="layout">
   <aside>
     <div class="brand">
@@ -941,8 +975,44 @@
   // 漢堡按鈕：切換側邊欄
   const hamburger = document.getElementById('hamburger');
   const layout = document.getElementById('layout');
+  const backdrop = document.getElementById('backdrop');
+
+  function isMobile() { return window.innerWidth <= 900; }
+
+  function openMobile() {
+    layout.classList.add('mobile-open');
+    backdrop.style.display = 'block';
+    requestAnimationFrame(() => backdrop.style.opacity = '1');
+  }
+  function closeMobile() {
+    layout.classList.remove('mobile-open');
+    backdrop.style.opacity = '0';
+    setTimeout(() => { backdrop.style.display = 'none'; }, 250);
+  }
+
   hamburger.addEventListener('click', () => {
-    layout.classList.toggle('collapsed');
+    if (isMobile()) {
+      if (layout.classList.contains('mobile-open')) closeMobile();
+      else openMobile();
+    } else {
+      layout.classList.toggle('collapsed');
+    }
+  });
+
+  // 手機版：點背景遮罩或點選單項目都關閉側邊欄
+  backdrop.addEventListener('click', closeMobile);
+  document.querySelectorAll('.nav-link').forEach(a => {
+    a.addEventListener('click', () => {
+      if (isMobile()) closeMobile();
+    });
+  });
+  // 視窗大小改變時，從手機切回電腦要清掉 mobile 狀態
+  window.addEventListener('resize', () => {
+    if (!isMobile()) {
+      layout.classList.remove('mobile-open');
+      backdrop.style.display = 'none';
+      backdrop.style.opacity = '0';
+    }
   });
 </script>
 </body>
