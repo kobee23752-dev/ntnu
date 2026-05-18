@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>游美貴教授論文指導傳承手冊</title>
+<style>
+  :root {
+    --bg: #f8f2e6;              /* 淺咖啡 */
+    --paper: #fdfaf3;
+    --ink: #2a2520;
+    --ink-soft: #6b5e52;
+    --accent: #8b4513;          /* 棕 */
+    --accent-deep: #6b3410;
+    --accent-soft: #c9a982;     /* 淺褐 */
+    --mint: #a8b890;            /* 抹茶綠 */
+    --mint-soft: #dde3c8;
+    --sand: #d4b76a;            /* 暖黃 */
+    --sand-soft: #ecdfb5;
+    --sky: #7a95a3;             /* 霧灰藍 */
+    --sky-soft: #cdd9df;
+    --plum: #b06b5a;            /* 紅磚 */
+    --plum-soft: #e6c8c0;
+    --rose: #d8a8a8;            /* 灰玫瑰 */
+    --rose-soft: #ecd2d0;
+    --line: #e3ddd0;
+    --highlight: #ede9de;
+    --note: #f0ebde;
+    --tag-bg: #ddd6c5;
+    --shadow: 0 1px 3px rgba(80,60,40,0.05), 0 4px 12px rgba(80,60,40,0.06);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Noto Serif TC", "Songti TC", "PingFang TC", "Microsoft JhengHei", serif;
+    background: #ffffff;
+    color: var(--ink);
+    line-height: 1.85;
+    font-size: 16px;
+  }
+  .layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: 100vh;
+  }
+  /* Sidebar */
+  aside {
+    background: #dee7eb;
+    border-right: 1px solid #c7d3d8;
+    padding: 56px 0 32px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    transition: width 0.25s ease, transform 0.25s ease, opacity 0.25s ease;
+  }
+  /* 漢堡按鈕 */
+  .hamburger {
+    position: fixed;
+    top: 18px;
+    left: 18px;
+    z-index: 100;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.15s ease;
+  }
+  .hamburger:hover { border-color: var(--accent-soft); }
+  .hamburger span {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 1px;
+    transition: all 0.2s ease;
+  }
+  /* 收合狀態 */
+  .layout.collapsed { grid-template-columns: 0 1fr; }
+  .layout.collapsed aside {
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .layout.collapsed main { padding-left: 88px; }
+  aside .brand {
+    padding: 0 28px 24px;
+    margin-bottom: 16px;
+  }
+  aside .brand h1 {
+    font-size: 18px;
+    margin: 0 0 6px;
+    color: var(--accent-deep);
+    letter-spacing: 1px;
+  }
+  aside .brand p {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin: 0;
+    line-height: 1.6;
+  }
+  nav ul { list-style: none; padding: 0; margin: 0; }
+  nav li a {
+    display: block;
+    padding: 10px 28px;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 14.5px;
+    font-weight: 700;
+    border-left: 3px solid transparent;
+    transition: all 0.15s ease;
+  }
+  nav li a:hover {
+    background: rgba(255,255,255,0.5);
+    color: var(--accent);
+  }
+  nav li a.active {
+    background: rgba(255,255,255,0.65);
+    color: var(--accent);
+    border-left-color: var(--accent);
+    font-weight: 600;
+  }
+  nav .group-divider {
+    height: 1px;
+    background: #c7d3d8;
+    margin: 12px 28px;
+  }
+  /* Main */
+  main {
+    padding: 56px 64px 96px;
+    max-width: 880px;
+    background: #ffffff;
+    min-height: 100vh;
+  }
+  section.page { display: none; }
+  section.page.active { display: block; animation: fadeIn 0.25s ease; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  h2.chapter {
+    font-size: 28px;
+    color: var(--accent-deep);
+    margin: 0 0 8px;
+    padding-bottom: 14px;
+    letter-spacing: 2px;
+    position: relative;
+  }
+  h2.chapter::after {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 80px;
+    height: 3px;
+    background: var(--plum);
+    border-radius: 2px;
+  }
+  .chapter-sub {
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-bottom: 36px;
+    letter-spacing: 1px;
+  }
+  h3 {
+    font-size: 20px;
+    color: var(--ink);
+    margin: 36px 0 14px;
+    padding-left: 12px;
+    border-left: 4px solid var(--plum);
+  }
+  h4 {
+    font-size: 16px;
+    color: var(--accent-deep);
+    margin: 24px 0 10px;
+  }
+  p { margin: 0 0 14px; }
+  ul.tips { padding-left: 22px; margin: 0 0 18px; }
+  ul.tips li { margin-bottom: 8px; }
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 16px 0 24px;
+    box-shadow: var(--shadow);
+  }
+  .card.highlight {
+    background: var(--paper);
+    border-color: var(--mint-soft);
+    border-left: 4px solid var(--mint);
+  }
+  .card.warn {
+    background: var(--paper);
+    border-color: var(--sand-soft);
+    border-left: 4px solid var(--sand);
+  }
+  .card .label {
+    display: inline-block;
+    font-size: 11.5px;
+    background: var(--tag-bg);
+    color: var(--accent-deep);
+    padding: 2px 10px;
+    border-radius: 10px;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+  .card.highlight .label { background: var(--mint-soft); color: #4a7558; }
+  .card.warn .label { background: var(--sand-soft); color: #8a6418; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 24px;
+    background: var(--paper);
+    font-size: 14.5px;
+  }
+  th, td {
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  th {
+    background: var(--note);
+    color: var(--accent-deep);
+    font-weight: 600;
+    font-size: 13.5px;
+    letter-spacing: 1px;
+  }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .quote {
+    font-style: italic;
+    color: var(--ink-soft);
+    border-left: 3px solid var(--accent-soft);
+    padding-left: 16px;
+    margin: 16px 0;
+  }
+  .pill {
+    display: inline-block;
+    font-size: 12px;
+    padding: 2px 10px;
+    background: var(--tag-bg);
+    color: var(--accent-deep);
+    border-radius: 10px;
+    margin: 0 4px 4px 0;
+  }
+  .kbd {
+    font-family: ui-monospace, "SF Mono", Consolas, monospace;
+    background: var(--note);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: var(--accent-deep);
+  }
+  .photo-placeholder {
+    margin: 32px 0;
+    border: 2px dashed var(--accent-soft);
+    border-radius: 16px;
+    background: var(--paper);
+    aspect-ratio: 16 / 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .photo-inner { text-align: center; color: var(--ink-soft); }
+  .photo-icon { font-size: 36px; margin-bottom: 8px; }
+  .photo-text {
+    font-size: 16px;
+    color: var(--accent-deep);
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+  .photo-sub {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+  .download-list {
+    display: grid;
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .download-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--ink);
+    transition: all 0.15s ease;
+    box-shadow: var(--shadow);
+  }
+  .download-item:hover {
+    border-color: var(--accent-soft);
+    background: var(--note);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(196,135,127,0.15);
+  }
+  .download-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+    color: white;
+  }
+  .download-icon.doc { background: var(--accent); }
+  .download-icon.pdf { background: var(--mint); }
+  .download-icon.pdf2 { background: var(--sky); }
+  .download-icon.docx { background: var(--sand); }
+  .download-icon.pdf3 { background: var(--plum); }
+  .download-meta { flex: 1; }
+  .download-meta .name {
+    font-size: 15.5px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .download-meta .desc {
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .download-arrow {
+    color: var(--accent-deep);
+    font-size: 20px;
+  }
+  .footer-note {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px dashed var(--line);
+    color: var(--ink-soft);
+    font-size: 13px;
+    text-align: center;
+  }
+  .toc-callout {
+    background: var(--paper);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin: 24px 0;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--accent);
+    box-shadow: var(--shadow);
+  }
+  .toc-callout .accent-bp {
+    color: var(--accent-deep);
+    font-weight: 700;
+    background-color: var(--sand-soft);
+    padding: 1px 4px;
+    border-radius: 3px;
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    aside { position: relative; height: auto; }
+    main { padding: 32px 24px; }
+    .grid-2 { grid-template-columns: 1fr; }
+  }
+  @media print {
+    aside { display: none; }
+    .layout { grid-template-columns: 1fr; }
+    section.page { display: block !important; page-break-after: always; }
+  }
+</style>
+</head>
+<body>
+<button class="hamburger" id="hamburger" aria-label="切換側邊選單">
+  <span></span><span></span><span></span>
+</button>
+<div class="layout" id="layout">
+  <aside>
+    <div class="brand">
+      <h1>游美貴教授<br>論文指導傳承手冊</h1>
+      <p>國立臺灣師範大學<br>社會工作學研究所</p>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#home" class="nav-link active">關於這份手冊</a></li>
+        <li><a href="#structure" class="nav-link">論文整體結構</a></li>
+      </ul>
+      <div class="group-divider"></div>
+      <ul>
+        <li><a href="#ch1" class="nav-link">第一章　緒論</a></li>
+        <li><a href="#ch2" class="nav-link">第二章　文獻探討</a></li>
+        <li><a href="#ch3" class="nav-link">第三章　研究方法</a></li>
+        <li><a href="#ch4" class="nav-link">第四章　結果與討論</a></li>
+        <li><a href="#ch5" class="nav-link">第五章　結論與建議</a></li>
+      </ul>
+      <div class="group-divider"></div>
+      <ul>
+        <li><a href="#format" class="nav-link">論文格式規範</a></li>
+        <li><a href="#table" class="nav-link">表格與圖</a></li>
+        <li><a href="#style" class="nav-link">寫作風格與用語</a></li>
+        <li><a href="#mistakes" class="nav-link">常見錯誤</a></li>
+        <li><a href="#apa" class="nav-link">APA 與參考書目</a></li>
+      </ul>
+      <div class="group-divider"></div>
+      <ul>
+        <li><a href="#downloads" class="nav-link">老師的原始文件</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main>
+
+    <!-- ============ 關於這份手冊 ============ -->
+    <section id="home" class="page active">
+      <h2 class="chapter">關於這份手冊</h2>
+
+      <div class="toc-callout">
+        <p>這份手冊整理了美貴老師在指導「113級頂級一流七人幫」論文時，反覆提醒過的事項。記錄下來的重點是希望讓同學少走一些冤枉路，也愛惜老師<span class="accent-bp">的血壓</span>。</p>
+      </div>
+
+      <h3>怎麼使用</h3>
+      <p>左邊的目錄按照論文的章節分頁。如果你剛開始寫第一章，就從〈第一章 緒論〉看起；如果你正在處理表格、字級的問題，可以直接跳到〈論文格式規範〉與〈表格與圖〉。</p>
+
+      <div class="photo-placeholder">
+        <div class="photo-inner">
+          <div class="photo-icon">📷</div>
+          <div class="photo-text">指導小組合照</div>
+          <div class="photo-sub">之後把照片放在這裡</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 論文整體結構 ============ -->
+    <section id="structure" class="page">
+      <h2 class="chapter">論文整體結構</h2>
+      <p class="chapter-sub">游老師組 質性研究論文標準結構（請尊重智財權，勿外傳）</p>
+
+      <h3>紙本順序</h3>
+      <div class="grid-2">
+        <div class="card">
+          <span class="label">前置</span>
+          <ol>
+            <li>封面</li>
+            <li>學位論文授權書</li>
+            <li>論文通過簽名表</li>
+            <li>線上剽竊系統之論文原創報告</li>
+            <li>謝辭</li>
+            <li>中文摘要</li>
+            <li>英文摘要</li>
+            <li>目次</li>
+            <li>表次</li>
+            <li>圖次</li>
+          </ol>
+        </div>
+        <div class="card">
+          <span class="label">本文與後置</span>
+          <ol start="11">
+            <li>本文（第一章～第五章）</li>
+            <li>參考文獻（APA 格式）</li>
+            <li>附錄</li>
+            <li>封底</li>
+          </ol>
+        </div>
+      </div>
+
+      <h3>本文章節（質性研究）</h3>
+      <table>
+        <thead><tr><th>章</th><th>重點</th><th>頁數參考</th></tr></thead>
+        <tbody>
+          <tr><td>第一章　緒論</td><td>問題意識的展現</td><td>13–17 頁</td></tr>
+          <tr><td>第二章　文獻探討</td><td>理論基礎</td><td>實務報告約 20 頁，一般論文約 35 頁</td></tr>
+          <tr><td>第三章　研究方法</td><td>方法論、設計、嚴謹性、倫理</td><td>—</td></tr>
+          <tr><td>第四章　研究結果與討論</td><td>回應研究目的與問題</td><td>—</td></tr>
+          <tr><td>第五章　結論與建議</td><td>研究結果轉出應用</td><td>—</td></tr>
+        </tbody>
+      </table>
+
+      <h3>第三章 標準節次</h3>
+      <ul class="tips">
+        <li>第一節　質性研究典範（或為什麼用質性研究）</li>
+        <li>第二節　研究對象</li>
+        <li>第三節　研究工具及資料收集方法</li>
+        <li>第四節　資料分析方法</li>
+        <li>第五節　研究嚴謹性及研究倫理（含研究者角色的說明）</li>
+        <li>第六節　研究時程表（計畫書時需要，完整論文可刪除）</li>
+      </ul>
+
+      <h3>第五章 標準節次</h3>
+      <ul class="tips">
+        <li>第一節　結論</li>
+        <li>第二節　建議（含對未來研究的建議）</li>
+        <li>第三節　研究限制</li>
+        <li>第四節　研究者的反思</li>
+      </ul>
+
+      <div class="card warn">
+        <span class="label">頁碼規則</span>
+        <p>不標示頁碼：封面、授權書、論文通過簽名表、原創報告。<br>
+        羅馬數字頁碼：謝辭、中英摘、目次（目錄）、表圖次。<br>
+        阿拉伯數字頁碼：正文～參考文獻、附錄等。<br>
+        每大章（第一章、第二章等）需於單數頁碼開始，空一個白頁也沒關係。</p>
+      </div>
+    </section>
+
+    <!-- ============ 第一章 ============ -->
+    <section id="ch1" class="page">
+      <h2 class="chapter">第一章　緒論</h2>
+      <p class="chapter-sub">重點在問題意識的展現　全章 13–17 頁　內文 1.5 行高</p>
+
+      <h3>第一節　研究背景與動機（9–13 頁）</h3>
+      <p>從大到小，層層收斂到「為什麼是你做、為什麼非得是你做」。</p>
+      <table>
+        <thead><tr><th>層次</th><th>內容</th></tr></thead>
+        <tbody>
+          <tr><td>大</td><td>立法、數據、社會統計（如 CRC 國際審查會議）</td></tr>
+          <tr><td>中</td><td>服務輸送的狀況（例如：脆家兒少表意權比較少被關注）</td></tr>
+          <tr><td>小</td><td>研究者自己的實務觀察與經驗</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card highlight">
+        <span class="label">核心提問</span>
+        <p>為什麼要做這個主題？為什麼非得是我做不可？過去有人做嗎？做得如何？</p>
+      </div>
+
+      <h4>論述策略</h4>
+      <ul class="tips">
+        <li>段落最後可以發出疑問（可以不只一個），接著對應到研究動機與問題，把問題點出來。</li>
+        <li>有學理的就放學理，有法規的就放法規。</li>
+        <li>被忽視的議題要去舉證——若很少人做這個族群的研究、只有類似的，可用表格整理相關研究做佐證；表格內容太多就放附錄，正文寫「詳見附錄一」。</li>
+        <li>有實務經驗就寫實務觀察。</li>
+        <li>社會調查數據要用最新的，除非是經典；即使是自己整理也要寫「研究者參考……自行整理」。</li>
+        <li>引用別人原句一字不漏時，要標出處的頁數。</li>
+      </ul>
+
+      <h3>第二節　研究目的與研究問題（2–3 頁）</h3>
+      <p>三個目的＋一個建議（參考老師給的範例）。每個目的後面，延伸出對應的研究問題。</p>
+      <div class="card">
+        <span class="label">範例結構</span>
+        <ol>
+          <li>探討 ○○ 的培訓經驗　→　延伸研究問題</li>
+          <li>瞭解 ○○ 的服務經驗　→　延伸研究問題</li>
+          <li>理解 ○○ 運用 △△ 的經驗　→　延伸研究問題</li>
+          <li>彙整 ○○ 在政策、培訓及實務工作的建議　→　延伸研究問題</li>
+        </ol>
+        <p>結尾「綜合上述……」段，重申研究主軸與期待貢獻。</p>
+      </div>
+
+      <h3>第三節　名詞釋義（至少 2 個，最多 4 個；1.5–2 頁）</h3>
+      <p>詳細的內涵會寫在第二章文獻探討，這裡先做界定。</p>
+      <ul class="tips">
+        <li>研究參與者（例：兒少代表）</li>
+        <li>聚焦的議題（例：兒少表意權）</li>
+        <li>場域或機構（例：仁親社區關懷協會）</li>
+      </ul>
+
+    </section>
+
+    <!-- ============ 第二章 ============ -->
+    <section id="ch2" class="page">
+      <h2 class="chapter">第二章　文獻探討</h2>
+      <p class="chapter-sub">重點在理論基礎　實務報告約 20 頁，一般論文約 35 頁上下</p>
+
+      <h3>核心提問（寫之前先問自己這七個問題）</h3>
+      <table>
+        <thead><tr><th>#</th><th>提問</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>應該把知識與批判思維結合起來</td></tr>
+          <tr><td>2</td><td>我們對這些主題已知道的有什麼呢？</td></tr>
+          <tr><td>3</td><td>對於已經知道的，你有什麼批判性說法呢？</td></tr>
+          <tr><td>4</td><td>有沒有人做過完全相同的？</td></tr>
+          <tr><td>5</td><td>有沒有人做過類似相關的？</td></tr>
+          <tr><td>6</td><td>你的研究與以前的研究，有哪裡相呼應的呢？</td></tr>
+          <tr><td>7</td><td>為什麼人家都已經做過的研究，你的研究還值得做呢？</td></tr>
+        </tbody>
+      </table>
+
+      <h3>第二章該寫到的內容</h3>
+      <ul class="tips">
+        <li>定義、內涵、理論基礎（知識層面）。</li>
+        <li>說明研究的立場（例如批判理論），如果用了某個理論，就要把這個理論講清楚。</li>
+        <li>場域要圖像化——若場域是陪讀班，就要把陪讀班的樣貌講清楚，讓人讀起來有畫面。</li>
+        <li>國外文獻至少 20 篇（要驗證）。</li>
+        <li>找一篇寫作習慣或寫法跟自己接近的論文，參考它的鋪陳。</li>
+      </ul>
+
+      <div class="card highlight">
+        <span class="label">節次安排（第二章第三節示例）</span>
+        <p>從上而下層層收：先寫社家署的「陪讀服務方案」（兒少小站），再寫全國的情況，最後下到組織與機構。</p>
+        <p style="font-size:13px;color:var(--ink-soft);margin-top:8px;">※ 本示例為「專業實務報告」的寫法。</p>
+      </div>
+
+      <h3>專有名詞處理</h3>
+      <p>如果有專有名詞，在第一節就要把內涵寫清楚（內涵含定義、範疇）。</p>
+
+    </section>
+
+    <!-- ============ 第三章 ============ -->
+    <section id="ch3" class="page">
+      <h2 class="chapter">第三章　研究方法</h2>
+      <p class="chapter-sub">重點：你的研究怎麼做、為什麼這樣做</p>
+
+      <h3>四個核心提問</h3>
+      <ul class="tips">
+        <li>How did you go about your research? 你的研究會如何進行？</li>
+        <li>What overall strategy did you adopt and why? 採取了什麼策略、為什麼？</li>
+        <li>What design and techniques did you use? 使用的研究設計與技術是什麼？</li>
+        <li>Why these and not others? 為什麼是這些方法而不是其他？</li>
+      </ul>
+
+      <h3>研究設計的內容</h3>
+      <table>
+        <thead><tr><th>項目</th><th>說明</th></tr></thead>
+        <tbody>
+          <tr><td>研究方法擇選</td><td>選擇質性方法的理由</td></tr>
+          <tr><td>研究對象</td><td>對象來源、場域與進入方式、研究者與受訪者的關係</td></tr>
+          <tr><td>研究工具</td><td>預試、訪談中涵蓋的主題</td></tr>
+          <tr><td>資料收集方法</td><td>—</td></tr>
+          <tr><td>資料分析過程</td><td>分析程序、對象描述、代表性</td></tr>
+          <tr><td>研究嚴謹性</td><td>—</td></tr>
+          <tr><td>研究倫理</td><td>含研究者角色的說明</td></tr>
+          <tr><td>研究期程</td><td>計畫書需要，完整論文可刪除</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card highlight">
+        <span class="label">老師補充</span>
+        <p>圖比較會出現在第三章「研究取徑」的位置。如果有圖，裡面文字不能太小。</p>
+      </div>
+    </section>
+
+    <!-- ============ 第四章 ============ -->
+    <section id="ch4" class="page">
+      <h2 class="chapter">第四章　研究結果與討論</h2>
+      <p class="chapter-sub">重點在回應研究目的與問題</p>
+
+      <h3>三個核心動作</h3>
+      <ul class="tips">
+        <li>Explain what the chapter has done. 解釋研究完成了什麼。</li>
+        <li>Describe the new questions the chapter has identified. 描述研究的新發現。</li>
+        <li>Explain where these questions will be addressed. 解釋如何處理那些研究問題。</li>
+      </ul>
+
+      <div class="card">
+        <span class="label">引文格式提醒</span>
+        <p>質化研究內文若為新細明體，逐字稿引文用標楷體；內文若為標楷體，引文則用新細明體。引文兩邊都要縮排，各兩個中文字元的距離。</p>
+      </div>
+    </section>
+
+    <!-- ============ 第五章 ============ -->
+    <section id="ch5" class="page">
+      <h2 class="chapter">第五章　結論與建議</h2>
+      <p class="chapter-sub">重點在研究結果轉出應用</p>
+
+      <h3>四個面向</h3>
+      <ol>
+        <li>研究結果、研究問題、文獻間的相互回應，是否有新發現。</li>
+        <li>回答口委典型的問題：「如果你重新進行這項研究，會做哪些不同的事？為什麼？」——也就是從研究中學到的經驗。</li>
+        <li>對政策和實務的具體建議。</li>
+        <li>對未來研究的建議（含可延伸的方法、概念）。</li>
+      </ol>
+
+      <h3>章內節次</h3>
+      <ul class="tips">
+        <li>第一節　結論</li>
+        <li>第二節　建議（含對未來研究的建議）</li>
+        <li>第三節　研究限制</li>
+        <li>第四節　研究者的反思</li>
+      </ul>
+    </section>
+
+    <!-- ============ 論文格式規範 ============ -->
+    <section id="format" class="page">
+      <h2 class="chapter">論文格式規範</h2>
+      <p class="chapter-sub">封面、紙張、字體、版面</p>
+
+      <h3>封面與紙張</h3>
+      <ul class="tips">
+        <li>封面顏色：紙張需上光，萊妮紙基重 240gsm，淺黃色（國際標準色 C=0／M=5／Y=30／K=0），字體為黑色。</li>
+        <li>論文大小：精裝十六開（A4），白報紙，紙張重量 80 磅。</li>
+        <li>留白：內文左邊約 2.5 公分，上下及右邊約 2.5 公分，以利裝訂。</li>
+      </ul>
+
+      <h3>字體</h3>
+      <ul class="tips">
+        <li>內文中文：新細明體或標楷體；英文：Times New Roman。</li>
+        <li>引文反向使用：內文若為新細明體，逐字稿引文用標楷體；反之亦然。引文兩邊縮排各兩個中文字元。</li>
+        <li>標題與內文皆「不縮排」。</li>
+        <li>內文採「左右對齊」。</li>
+      </ul>
+
+      <h3>標題層次與字級</h3>
+      <table>
+        <thead><tr><th>層次</th><th>樣式</th><th>對齊</th><th>範例</th></tr></thead>
+        <tbody>
+          <tr><td>章</td><td>粗體 18 點</td><td>置中</td><td>第一章 ｘｘｘｘｘ</td></tr>
+          <tr><td>節</td><td>粗體 16 點</td><td>置中</td><td>第一節 ｘｘｘｘｘ</td></tr>
+          <tr><td>一、</td><td>粗體 14 點</td><td>靠左</td><td>一、XXXX（不要加冒號）</td></tr>
+          <tr><td>（一）</td><td>粗體 12 點</td><td>靠左</td><td>（一）XXXXXXX（不要加冒號）</td></tr>
+          <tr><td>1.</td><td>粗體 12 點</td><td>靠左</td><td>1.</td></tr>
+          <tr><td>內文</td><td>12 點</td><td>左右對齊</td><td>—</td></tr>
+        </tbody>
+      </table>
+
+      <h3>頁碼</h3>
+      <table>
+        <thead><tr><th>區塊</th><th>頁碼方式</th></tr></thead>
+        <tbody>
+          <tr><td>封面、授權書、論文通過簽名表、原創報告</td><td>不標示</td></tr>
+          <tr><td>謝辭、中英摘、目次、表圖次</td><td>羅馬數字</td></tr>
+          <tr><td>正文～參考文獻、附錄</td><td>阿拉伯數字</td></tr>
+        </tbody>
+      </table>
+      <p>每大章需於單數頁碼開始，空一個白頁也沒關係。</p>
+    </section>
+
+    <!-- ============ 表格與圖 ============ -->
+    <section id="table" class="page">
+      <h2 class="chapter">表格與圖</h2>
+      <p class="chapter-sub">老師對「視覺呈現」的具體要求</p>
+
+      <h3>表格</h3>
+      <ul class="tips">
+        <li>表格說明在「上」，要包括資料來源（不用註腳）。</li>
+        <li>若是數字，內容靠右對齊。</li>
+        <li>表格不要切到下一頁；超過 2 頁就改放「附錄」。</li>
+        <li>不要寫「作者與年代」，要寫成：<br><span class="kbd">作者</span>　<span class="kbd">（年代）</span>　（分兩行或分欄）</li>
+        <li>資料來源寫法：<span class="kbd">XXX；研究者自行整理</span>　（與前段距離設 0.5，才不會太貼表格）</li>
+        <li>表格不要太長，可以調整。</li>
+        <li>若要調整左右寬度，不要拉左邊（左邊要留給裝訂）。</li>
+        <li>不要用圖片檔；除非是直接貼別人的，自己整理的要用「打的」。</li>
+        <li>質性研究很少用表格，如果用，就代表「非常重要」。</li>
+      </ul>
+
+      <div class="card">
+        <span class="label">表格示例</span>
+        <table>
+          <thead><tr><th>作者<br>（年代）</th><th>研究對象</th><th>主要發現</th></tr></thead>
+          <tbody>
+            <tr><td>游美貴<br>（2020）</td><td>○○族群</td><td>……</td></tr>
+            <tr><td>李○○<br>（2023）</td><td>△△族群</td><td>……</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:13px;color:var(--ink-soft);margin-top:8px;">資料來源：XXX；研究者自行整理</p>
+      </div>
+
+      <h3>圖</h3>
+      <ul class="tips">
+        <li>圖會用「註腳」（圖 1 若在第一章第一節，可用註解 1-1）。</li>
+        <li>常出現的位置：本來就需要圖解的流程、第三章研究取徑、結論。</li>
+        <li>不會「整篇亂文都是圖」。</li>
+        <li>如果有圖，裡面文字不能太小。</li>
+      </ul>
+    </section>
+
+    <!-- ============ 寫作風格 ============ -->
+    <section id="style" class="page">
+      <h2 class="chapter">寫作風格與用語</h2>
+      <p class="chapter-sub">老師反覆改過的小地方，整理在這裡</p>
+
+      <h3>標點符號</h3>
+      <ul class="tips">
+        <li>用「；」表示轉折，不要用破折號「——」、不要用「⋯⋯等」，直接寫「等」。</li>
+        <li>同一個文獻間用「；」隔開，不要用「。」。</li>
+        <li>「所以」、「因此」後面要加一個逗號。</li>
+        <li>除非是關鍵或專有名詞，才用引號「」，不要太多引號。</li>
+      </ul>
+
+      <h3>連接詞與轉折</h3>
+      <ul class="tips">
+        <li>不要只寫「然」，要寫「然而」、「再者」、「此外」。</li>
+        <li>「而」要寫完整，不要單獨用。</li>
+        <li>「綜上所述」不要每段都用，找同義詞替換，不要從頭到尾都一樣。</li>
+      </ul>
+
+      <h3>段落與用字</h3>
+      <ul class="tips">
+        <li>不要兩三行就變一段，會讓讀者一直被打斷。</li>
+        <li>不要太多形容詞。</li>
+        <li>白話文一點：不要寫太多「之」、太多「」。</li>
+        <li>不是自己的，都要把引文寫上；是自己的，可以強調「研究者認為」。</li>
+        <li>實務報告 vs. 學術論文：實務上常要解釋，所以容易重複，但學術論文不要一直重複。</li>
+      </ul>
+
+      <h3>用詞選擇</h3>
+      <table>
+        <thead><tr><th>不建議</th><th>改為</th></tr></thead>
+        <tbody>
+          <tr><td>現況</td><td>情形（畢業時就不是「現況」了）</td></tr>
+          <tr><td>資料庫</td><td>知識平台</td></tr>
+          <tr><td>標題只下名詞（如「兒少表意權」）</td><td>加動名詞或方向（如「兒少表意權的培力歷程」）</td></tr>
+          <tr><td>標題「XX 與 XX」</td><td>一個標題只提一件事</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ============ 常見錯誤 ============ -->
+    <section id="mistakes" class="page">
+      <h2 class="chapter">常見錯誤</h2>
+      <p class="chapter-sub">老師反覆指出、學生反覆犯的那些</p>
+
+      <h3>動筆之前</h3>
+      <ul class="tips">
+        <li>動筆前先寫大綱。</li>
+        <li>找一篇寫作習慣或寫法跟自己接近的論文，參考它的鋪陳。</li>
+      </ul>
+
+      <h3>內容與寫法</h3>
+      <ul class="tips">
+        <li>實務工作者很容易犯的錯：內容一直重複。實務上常要解釋，但學術論文不要。</li>
+        <li>同一個段落不能只用同一份文獻寫兩段就結束。要麼把兩段融合，要麼補其他文獻，或加自己的觀點。</li>
+        <li>段落不要兩三行就分一段，會讓讀者一直被打斷。</li>
+        <li>不要寫太多形容詞。</li>
+        <li>白話文一點，不要太多「之」、太多引號「」，讓讀者抓不到重點。</li>
+        <li>引用別人的，要標出處；如果是自己的判斷，可以寫「研究者認為」。</li>
+        <li>如果是調查報告，2006 年的跟現今的可能差很多。若真的找不到新的，就提出自己的觀察，並說明都找不到近幾年的文獻。</li>
+      </ul>
+
+      <h3>標題</h3>
+      <ul class="tips">
+        <li>標題不要用「現況」，因為畢業時就不是現況了，要改成「情形」。</li>
+        <li>標題或次標題不能只下一個名詞，要有動名詞或方向性。</li>
+        <li>一個標題不能提兩件事，不要有「XX 與 XX」。</li>
+        <li>標題後不要加冒號（一、XXXX、（一）XXXXXXX）。</li>
+      </ul>
+    </section>
+
+    <!-- ============ APA ============ -->
+    <section id="apa" class="page">
+      <h2 class="chapter">APA 與參考書目</h2>
+      <p class="chapter-sub">以社會科學為例，符合 APA 7.0（目前版本）</p>
+
+      <h3>APA 寫法</h3>
+      <ul class="tips">
+        <li>若作者超過三人，內文只寫第一個人就好，例如：<span class="kbd">游美貴等</span>。</li>
+        <li>排序：依名字筆畫／英文 ABC 遞增；同作者則年代久的在前。</li>
+        <li>中文文獻：期刊名、期數、書名——斜體或加粗二選一（不能同時並存），盡量都用斜體。</li>
+        <li>英文文獻：沒有加粗，只有斜體。</li>
+        <li>第二行之後：縮排空兩個中文字／四個英文字。</li>
+      </ul>
+
+      <h3>參考書目檔的作業流程</h3>
+      <div class="card highlight">
+        <span class="label">操作方式</span>
+        <p>另外開一個「參考書目」的檔案。每次新增的文獻，用<span style="background:#fff4d6;padding:0 4px;">螢光底色</span>標註；老師看完後，會把底色改回白色。</p>
+      </div>
+
+      <h3>找文獻的去處</h3>
+      <p>Taylor &amp; Francis 網站可以找 <em>related research</em>，會帶出很多相關文獻。</p>
+    </section>
+
+    <!-- ============ 老師的原始文件 ============ -->
+    <section id="downloads" class="page">
+      <h2 class="chapter">老師的原始文件</h2>
+      <p class="chapter-sub">游老師組內部資料，請尊重智財權勿外傳</p>
+
+      <div class="download-list">
+        <a class="download-item" href="files/format-guide.doc" download="游老師_論文格式規範.doc">
+          <div class="download-icon doc">DOC</div>
+          <div class="download-meta">
+            <div class="name">游老師_論文格式規範</div>
+            <div class="desc">封面、紙張、字體、層次、頁碼、APA 等所有版面規定</div>
+          </div>
+          <div class="download-arrow">↓</div>
+        </a>
+
+        <a class="download-item" href="files/writing-guide.pdf" download="游老師_質性研究寫作指導.pdf">
+          <div class="download-icon pdf">PDF</div>
+          <div class="download-meta">
+            <div class="name">游老師_質性研究寫作指導</div>
+            <div class="desc">各章核心提問清單（中英對照），從第一章到第五章</div>
+          </div>
+          <div class="download-arrow">↓</div>
+        </a>
+
+        <a class="download-item" href="files/thesis-structure.pdf" download="游老師_質性研究論文結構範例.pdf">
+          <div class="download-icon pdf2">PDF</div>
+          <div class="download-meta">
+            <div class="name">游老師_質性研究論文結構範例</div>
+            <div class="desc">游老師組標準論文結構（章節、節次）</div>
+          </div>
+          <div class="download-arrow">↓</div>
+        </a>
+
+        <a class="download-item" href="files/toc.docx" download="目次.docx">
+          <div class="download-icon docx">DOCX</div>
+          <div class="download-meta">
+            <div class="name">目次</div>
+            <div class="desc">論文目次格式範例（含圖表目錄）</div>
+          </div>
+          <div class="download-arrow">↓</div>
+        </a>
+
+        <a class="download-item" href="files/research-purpose-example.pdf" download="範例_研究目的與研究問題.pdf">
+          <div class="download-icon pdf3">PDF</div>
+          <div class="download-meta">
+            <div class="name">範例：研究目的與研究問題</div>
+            <div class="desc">老師提供的第一章第二節範例（性侵害防治社工研究）</div>
+          </div>
+          <div class="download-arrow">↓</div>
+        </a>
+      </div>
+    </section>
+
+    <div class="footer-note">
+      游美貴教授論文指導傳承手冊　·　由113級學生們整理製作
+    </div>
+  </main>
+</div>
+
+<script>
+  const links = document.querySelectorAll('.nav-link');
+  const pages = document.querySelectorAll('section.page');
+  function showPage(hash) {
+    const id = hash.replace('#', '') || 'home';
+    pages.forEach(p => p.classList.toggle('active', p.id === id));
+    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  links.forEach(a => a.addEventListener('click', (e) => {
+    e.preventDefault();
+    const hash = a.getAttribute('href');
+    history.pushState(null, '', hash);
+    showPage(hash);
+  }));
+  window.addEventListener('popstate', () => showPage(location.hash));
+  if (location.hash) showPage(location.hash);
+
+  // 漢堡按鈕：切換側邊欄
+  const hamburger = document.getElementById('hamburger');
+  const layout = document.getElementById('layout');
+  hamburger.addEventListener('click', () => {
+    layout.classList.toggle('collapsed');
+  });
+</script>
+</body>
+</html>
