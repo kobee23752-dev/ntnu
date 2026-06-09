@@ -261,28 +261,27 @@
     font-size: 14px;
     color: var(--accent-deep);
   }
-  .photo-placeholder {
+  .group-photo {
     margin: 32px 0;
-    border: 2px dashed var(--accent-soft);
     border-radius: 16px;
-    background: var(--paper);
-    aspect-ratio: 16 / 9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    text-align: center;
   }
-  .photo-inner { text-align: center; color: var(--ink-soft); }
-  .photo-icon { font-size: 36px; margin-bottom: 8px; }
-  .photo-text {
-    font-size: 16px;
-    color: var(--accent-deep);
-    font-weight: 600;
-    letter-spacing: 1px;
+  .group-photo img {
+    width: 100%;
+    display: block;
+    border-radius: 16px 16px 0 0;
   }
-  .photo-sub {
-    font-size: 13px;
+  .group-photo figcaption {
+    padding: 14px 20px;
+    font-size: 13.5px;
     color: var(--ink-soft);
-    margin-top: 4px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-top: none;
+    border-radius: 0 0 16px 16px;
+    letter-spacing: 1px;
   }
   .download-list {
     display: grid;
@@ -467,13 +466,10 @@
       <h3>怎麼使用</h3>
       <p>左邊的目錄按照論文的章節分頁。如果你剛開始寫第一章，就從〈第一章 緒論〉看起；如果你正在處理表格、字級的問題，可以直接跳到〈論文格式規範〉與〈表格與圖〉。</p>
 
-      <div class="photo-placeholder">
-        <div class="photo-inner">
-          <div class="photo-icon">📷</div>
-          <div class="photo-text">指導小組合照</div>
-          <div class="photo-sub">之後把照片放在這裡</div>
-        </div>
-      </div>
+      <figure class="group-photo">
+        <img src="files/group-photo.jpg" alt="游美貴教授指導小組合照">
+        <figcaption>113 級頂級一流七人幫　·　指導小組合照</figcaption>
+      </figure>
     </section>
 
     <!-- ============ 論文整體結構 ============ -->
