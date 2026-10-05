@@ -326,6 +326,67 @@
   .download-icon.docx { background: var(--sand); }
   .download-icon.pdf3 { background: var(--plum); }
   .download-icon.pdf4 { background: var(--rose); }
+  /* APA 範例拆解 */
+  .apa-demo {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--sky);
+    border-radius: 8px;
+    padding: 18px 24px 14px;
+    margin: 16px 0 20px;
+    box-shadow: var(--shadow);
+    overflow-x: auto;
+  }
+  .apa-demo .label {
+    display: inline-block;
+    font-size: 11.5px;
+    background: var(--sky-soft);
+    color: #44606e;
+    padding: 2px 10px;
+    border-radius: 10px;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .ref-line {
+    line-height: 3.1;
+    font-size: 15px;
+    margin: 8px 0 2px;
+    word-break: break-word;
+  }
+  .apa-seg {
+    position: relative;
+    padding: 3px 4px;
+    border-radius: 4px;
+  }
+  .apa-seg::before {
+    content: attr(data-t);
+    position: absolute;
+    top: -15px;
+    left: 2px;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+  }
+  .seg-author  { background: var(--sky-soft); }
+  .seg-year    { background: var(--sand-soft); }
+  .seg-title   { background: var(--mint-soft); }
+  .seg-journal { background: var(--plum-soft); font-style: italic; }
+  .seg-book    { background: var(--plum-soft); font-style: italic; }
+  .seg-vol     { background: var(--rose-soft); font-style: italic; }
+  .seg-issue   { background: var(--rose-soft); }
+  .seg-pages   { background: var(--highlight); }
+  .seg-doi     { background: var(--tag-bg); }
+  .seg-ed      { background: var(--sand-soft); }
+  .seg-pub     { background: var(--tag-bg); }
+  .apa-demo .note {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin: 10px 0 0;
+    line-height: 1.7;
+  }
   .download-meta { flex: 1; }
   .download-meta .name {
     font-size: 15.5px;
@@ -989,6 +1050,32 @@
     <section id="apa" class="page">
       <h2 class="chapter">APA 與參考書目</h2>
       <p class="chapter-sub">以社會科學為例，符合 APA 7.0（目前版本）</p>
+
+      <h3>先看懂一整串在寫什麼</h3>
+      <p>一條參考文獻拆開來，每一段都有固定的身分。以下用顏色和標籤對照，範例內容為格式示意：</p>
+
+      <div class="apa-demo">
+        <span class="label">中文：期刊文章</span>
+        <p class="ref-line"><span class="apa-seg seg-author" data-t="作者">陳美惠</span><span class="apa-seg seg-year" data-t="年代">（2022）</span>。<span class="apa-seg seg-title" data-t="文章標題">脆弱家庭兒少表意權的實踐經驗</span>。<span class="apa-seg seg-journal" data-t="期刊名">臺灣社會工作學刊</span>，<span class="apa-seg seg-vol" data-t="期數">28</span><span class="apa-seg seg-issue" data-t="期別">（2）</span>，<span class="apa-seg seg-pages" data-t="頁碼">45-78</span>。<span class="apa-seg seg-doi" data-t="DOI">https://doi.org/10.xxxx/xxxxxx</span></p>
+        <p class="note">期刊名與期數用斜體（斜體或加粗二選一，盡量用斜體）；期別在括號內不斜體；頁碼用半形「-」；標點用全形。</p>
+      </div>
+
+      <div class="apa-demo">
+        <span class="label">英文：期刊文章</span>
+        <p class="ref-line"><span class="apa-seg seg-author" data-t="作者">Smith, J. R., &amp; Brown, A. L.</span> <span class="apa-seg seg-year" data-t="年代">(2021)</span>. <span class="apa-seg seg-title" data-t="文章標題">Child participation in family services: A qualitative study</span>. <span class="apa-seg seg-journal" data-t="期刊名">British Journal of Social Work</span>, <span class="apa-seg seg-vol" data-t="期數">51</span><span class="apa-seg seg-issue" data-t="期別">(3)</span>, <span class="apa-seg seg-pages" data-t="頁碼">1024-1041</span>. <span class="apa-seg seg-doi" data-t="DOI">https://doi.org/10.xxxx/bjsw.0123</span></p>
+        <p class="note">姓在前寫完整，名只寫縮寫加句點；兩位作者之間用「&amp;」；文章標題只有首字母與專有名詞大寫；期刊名要完整全名不縮寫、用斜體；全部半形、沒有加粗。</p>
+      </div>
+
+      <div class="apa-demo">
+        <span class="label">中文：專書</span>
+        <p class="ref-line"><span class="apa-seg seg-author" data-t="作者">林志明</span><span class="apa-seg seg-year" data-t="年代">（2019）</span>。<span class="apa-seg seg-book" data-t="書名">質性研究方法與社會工作實務</span><span class="apa-seg seg-ed" data-t="版次">（第二版）</span>。<span class="apa-seg seg-pub" data-t="出版社">五南</span>。</p>
+      </div>
+
+      <div class="apa-demo">
+        <span class="label">英文：專書</span>
+        <p class="ref-line"><span class="apa-seg seg-author" data-t="作者">Padgett, D. K.</span> <span class="apa-seg seg-year" data-t="年代">(2017)</span>. <span class="apa-seg seg-book" data-t="書名">Qualitative methods in social work research</span> <span class="apa-seg seg-ed" data-t="版次">(3rd ed.)</span>. <span class="apa-seg seg-pub" data-t="出版社">Sage</span>.</p>
+        <p class="note">書名用斜體；版次放在書名後的括號內（不斜體）；APA 7 只寫出版社，不用寫出版地。</p>
+      </div>
 
       <h3>APA 寫法</h3>
       <ul class="tips">
