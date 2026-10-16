@@ -72,9 +72,11 @@
     justify-content: center;
     align-items: center;
     gap: 4px;
-    transition: all 0.15s ease;
+    transition: left 0.25s ease, border-color 0.15s ease;
   }
   .hamburger:hover { border-color: var(--accent-soft); }
+  /* 側邊欄打開時，按鈕滑到側邊欄外側，不擋住選單文字 */
+  .hamburger.shifted { left: 292px; }
   .hamburger span {
     display: block;
     width: 18px;
@@ -468,6 +470,10 @@
     .hamburger {
       z-index: 100;
     }
+    /* 手機版側邊欄打開時，按鈕浮在遮罩上並變成 X（代表關閉） */
+    .hamburger.shifted span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .hamburger.shifted span:nth-child(2) { opacity: 0; }
+    .hamburger.shifted span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
   }
   @media print {
     aside { display: none; }
@@ -1221,15 +1227,25 @@
 
   function isMobile() { return window.innerWidth <= 900; }
 
+  // 側邊欄可見時，把按鈕移到側邊欄外側，避免擋住選單文字
+  function syncHamburger() {
+    const open = isMobile()
+      ? layout.classList.contains('mobile-open')
+      : !layout.classList.contains('collapsed');
+    hamburger.classList.toggle('shifted', open);
+  }
+
   function openMobile() {
     layout.classList.add('mobile-open');
     backdrop.style.display = 'block';
     requestAnimationFrame(() => backdrop.style.opacity = '1');
+    syncHamburger();
   }
   function closeMobile() {
     layout.classList.remove('mobile-open');
     backdrop.style.opacity = '0';
     setTimeout(() => { backdrop.style.display = 'none'; }, 250);
+    syncHamburger();
   }
 
   hamburger.addEventListener('click', () => {
@@ -1238,6 +1254,7 @@
       else openMobile();
     } else {
       layout.classList.toggle('collapsed');
+      syncHamburger();
     }
   });
 
@@ -1255,7 +1272,9 @@
       backdrop.style.display = 'none';
       backdrop.style.opacity = '0';
     }
+    syncHamburger();
   });
+  syncHamburger();
 </script>
 </body>
 </html>
