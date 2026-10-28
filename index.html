@@ -141,6 +141,7 @@
     max-width: 880px;
     background: #ffffff;
     min-height: 100vh;
+    min-width: 0;
   }
   section.page { display: none; }
   section.page.active { display: block; animation: fadeIn 0.25s ease; }
@@ -427,6 +428,108 @@
     padding: 1px 4px;
     border-radius: 3px;
   }
+  /* 封面陪跑動畫 */
+  .race-wrap {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px 24px 14px;
+    margin: 28px 0;
+    box-shadow: var(--shadow);
+    overflow-x: auto;
+  }
+  .race-title { font-size: 17px; font-weight: 700; color: var(--accent-deep); margin: 0; letter-spacing: 1px; }
+  .race-sub { font-size: 12.5px; color: var(--ink-soft); margin: 2px 0 16px; }
+  .race-plot { position: relative; min-width: 660px; margin-left: 56px; margin-right: 86px; }
+  .race-axis { position: relative; height: 44px; }
+  .race-ms {
+    position: absolute;
+    transform: translateX(-50%);
+    text-align: center;
+    font-size: 10px;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+    line-height: 1.3;
+  }
+  .race-ms .dot { display: block; width: 7px; height: 7px; border-radius: 50%; background: var(--mint); margin: 3px auto 0; }
+  .race-lanes {
+    position: relative;
+    background: linear-gradient(180deg, #c97462, #bf6a58);
+    border-radius: 14px;
+    box-shadow: inset 0 2px 8px rgba(90, 40, 30, 0.25);
+    overflow: hidden;
+  }
+  .race-vline { position: absolute; top: 0; bottom: 0; border-left: 2px dashed rgba(255,255,255,0.35); }
+  .race-vline.exam { border-left: 2px dashed rgba(255,240,200,0.65); }
+  .race-goal-line {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 10px;
+    background-image: conic-gradient(#2a2520 90deg, #fff 90deg 180deg, #2a2520 180deg 270deg, #fff 270deg);
+    background-size: 10px 10px;
+    opacity: 0.85;
+  }
+  .race-lane { position: relative; height: 40px; border-bottom: 2px solid rgba(255,255,255,0.75); }
+  .race-lane:last-child { border-bottom: none; }
+  .race-name {
+    position: absolute;
+    left: -56px;
+    width: 48px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: var(--ink-soft);
+    text-align: right;
+  }
+  .race-runner {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    transition: left 2.4s cubic-bezier(0.25, 0.7, 0.3, 1);
+  }
+  .race-runner img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    display: block;
+    background: #fff;
+    box-shadow: var(--shadow);
+    animation: racebob 1.1s ease-in-out infinite;
+  }
+  @keyframes racebob {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50% { transform: translateY(-3px) rotate(3deg); }
+  }
+  .race-teacher {
+    position: absolute;
+    left: 100%;
+    margin-left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    font-size: 10.5px;
+    color: var(--ink-soft);
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+  .race-teacher img {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 2px solid var(--plum);
+    display: block;
+    margin: 0 auto 3px;
+    background: #fff;
+    box-shadow: var(--shadow);
+  }
+  .race-exams { position: relative; height: 42px; margin-top: 4px; }
+  .race-note { font-size: 12px; color: var(--ink-soft); margin: 10px 0 0; }
   .grid-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -534,6 +637,13 @@
 
       <div class="toc-callout">
         <p>這份手冊整理了美貴老師在指導「113級頂級一流七人幫」論文時，反覆提醒過的事項。記錄下來的重點是希望讓同學少走一些冤枉路，也愛惜老師的<span class="accent-bp">血壓</span>。</p>
+      </div>
+
+      <div class="race-wrap">
+        <p class="race-title">一起跑向畢業 🎓</p>
+        <p class="race-sub">不是比賽，是互相陪跑。進度會隨每次團督更新。</p>
+        <div class="race-plot" id="race"></div>
+        <p class="race-note">綠點是團督，🚩 是口試。</p>
       </div>
 
       <h3>怎麼使用</h3>
@@ -1428,6 +1538,57 @@
     syncHamburger();
   });
   syncHamburger();
+
+  // ===== 封面陪跑動畫 =====
+  (function(){
+    const el = document.getElementById('race');
+    if (!el) return;
+    const t0 = new Date('2026-03-01').getTime();
+    const t1 = new Date('2027-01-20').getTime();
+    const pct = d => ((new Date(d).getTime() - t0) / (t1 - t0) * 100).toFixed(2) + '%';
+    // 團督日期
+    const GD = ['2026-03-23','2026-04-20','2026-05-18','2026-06-08','2026-07-30',
+                '2026-08-26','2026-09-30','2026-10-28','2026-11-25','2026-12-28'];
+    // 口試
+    const EXAMS = [
+      {d:'2026-11-09', label:'11.09 雨函計畫書口試'},
+      {d:'2026-12-23', label:'12.23 口試'},
+      {d:'2026-12-24', label:'12.24 口試'}
+    ];
+    // 進度更新改這裡：把 at 改成誰目前跑到的日期
+    const RUNNERS = [
+      {name:'欣妤', img:'files/avatars/xinyu.jpg',   at:'2026-10-28'},
+      {name:'雅晴', img:'files/avatars/yaqing.jpg',  at:'2026-10-28'},
+      {name:'慧馨', img:'files/avatars/huixin.jpg',  at:'2026-10-28'},
+      {name:'王潔', img:'files/avatars/wangjie.jpg', at:'2026-10-28'},
+      {name:'雨函', img:'files/avatars/yuhan.jpg',   at:'2026-10-28'},
+      {name:'彥安', img:'files/avatars/yanan.jpg',   at:'2026-10-28'}
+    ];
+    let html = '<div class="race-axis">';
+    GD.forEach((d,i)=>{
+      const lab = d.slice(5).replace('-','.');
+      html += '<div class="race-ms" style="left:'+pct(d)+';top:'+(i%2?20:2)+'px;">'+lab+'<span class="dot"></span></div>';
+    });
+    html += '<div class="race-ms" style="left:100%;top:2px;font-weight:700;color:var(--accent-deep);">畢業<br>🎓</div>';
+    html += '</div><div class="race-lanes">';
+    GD.forEach(d=>{ html += '<div class="race-vline" style="left:'+pct(d)+';"></div>'; });
+    EXAMS.forEach(e=>{ html += '<div class="race-vline exam" style="left:'+pct(e.d)+';"></div>'; });
+    html += '<div class="race-goal-line"></div>';
+    RUNNERS.forEach(r=>{
+      html += '<div class="race-lane"><span class="race-name">'+r.name+'</span>'
+            + '<div class="race-runner" data-to="'+pct(r.at)+'"><img src="'+r.img+'" alt="'+r.name+'"></div></div>';
+    });
+    html += '<div class="race-teacher"><img src="files/avatars/teacher.jpg" alt="美貴老師">美貴老師</div>';
+    html += '</div><div class="race-exams">';
+    EXAMS.forEach((e,i)=>{
+      html += '<div class="race-ms" style="left:'+pct(e.d)+';top:'+(i%2?22:4)+'px;color:#9c5143;">🚩 '+e.label+'</div>';
+    });
+    html += '</div>';
+    el.innerHTML = html;
+    setTimeout(()=>{
+      el.querySelectorAll('.race-runner').forEach(r=>{ r.style.left = r.dataset.to; });
+    }, 400);
+  })();
 </script>
 </body>
 </html>
