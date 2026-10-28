@@ -1570,9 +1570,9 @@
       {dates:['2026-12-23','2026-12-24'], label:'12.23-24', type:'exam'},
       {dates:['2026-12-28'], label:'12.28', type:'gd'}
     ];
-    const START = 7;
-    const step = (100 - START) / STOPS.length;
-    const stopPct = i => (START + i * step).toFixed(2) + '%';
+    // 站點只佔跑道前段：10.28（第8站）剛好在一半，12.28 之後留一長段空白到畢業
+    const START = 7, STEP = 6;
+    const stopPct = i => (START + i * STEP).toFixed(2) + '%';
     const pct = d => {
       const i = STOPS.findIndex(s => s.dates.indexOf(d) >= 0);
       return i >= 0 ? stopPct(i) : '0%';
