@@ -440,7 +440,7 @@
   }
   .race-title { font-size: 17px; font-weight: 700; color: var(--accent-deep); margin: 0; letter-spacing: 1px; }
   .race-sub { font-size: 12.5px; color: var(--ink-soft); margin: 2px 0 16px; }
-  .race-plot { position: relative; min-width: 780px; margin-left: 12px; margin-right: 86px; }
+  .race-plot { position: relative; min-width: 1000px; margin-left: 12px; margin-right: 86px; }
   .race-axis { position: relative; height: 40px; }
   .race-ms {
     position: absolute;
@@ -1556,23 +1556,25 @@
     if (!el) return;
     // 里程碑站點（等距排列，日期全部對齊同一行）
     // dates 可以放多個日期共用同一站（例如 12.23-24）
+    // gap＝與前一站的距離（% 跑道寬），大致按實際天數：近的站近、遠的站遠
     const STOPS = [
-      {dates:['2026-03-23'], label:'03.23', type:'gd'},
-      {dates:['2026-04-20'], label:'04.20', type:'gd'},
-      {dates:['2026-05-18'], label:'05.18', type:'gd'},
-      {dates:['2026-06-08'], label:'06.08', type:'gd'},
-      {dates:['2026-07-30'], label:'07.30', type:'gd'},
-      {dates:['2026-08-26'], label:'08.26', type:'gd'},
-      {dates:['2026-09-30'], label:'09.30', type:'gd'},
-      {dates:['2026-10-28'], label:'10.28', type:'gd'},
-      {dates:['2026-11-09'], label:'11.09', type:'exam'},
-      {dates:['2026-11-25'], label:'11.25', type:'gd'},
-      {dates:['2026-12-23','2026-12-24'], label:'12.23-24', type:'exam'},
-      {dates:['2026-12-28'], label:'12.28', type:'gd'}
+      {dates:['2026-03-23'], label:'03.23', type:'gd',   gap:7},
+      {dates:['2026-04-20'], label:'04.20', type:'gd',   gap:6},
+      {dates:['2026-05-18'], label:'05.18', type:'gd',   gap:6},
+      {dates:['2026-06-08'], label:'06.08', type:'gd',   gap:5},
+      {dates:['2026-07-30'], label:'07.30', type:'gd',   gap:8},
+      {dates:['2026-08-26'], label:'08.26', type:'gd',   gap:6},
+      {dates:['2026-09-30'], label:'09.30', type:'gd',   gap:7},
+      {dates:['2026-10-28'], label:'10.28', type:'gd',   gap:6},
+      {dates:['2026-11-09'], label:'11.09', type:'exam', gap:3},
+      {dates:['2026-11-25'], label:'11.25', type:'gd',   gap:4},
+      {dates:['2026-12-23','2026-12-24'], label:'12.23-24', type:'exam', gap:6},
+      {dates:['2026-12-28'], label:'12.28', type:'gd',   gap:4.5}
     ];
-    // 站點只佔跑道前段：10.28（第8站）剛好在一半，12.28 之後留一長段空白到畢業
-    const START = 7, STEP = 6;
-    const stopPct = i => (START + i * STEP).toFixed(2) + '%';
+    // 站點只佔跑道前段（10.28 約在一半），12.28 之後留一長段空白到畢業
+    const cum = []; let acc = 0;
+    STOPS.forEach(s => { acc += s.gap; cum.push(acc); });
+    const stopPct = i => cum[i].toFixed(2) + '%';
     const pct = d => {
       const i = STOPS.findIndex(s => s.dates.indexOf(d) >= 0);
       return i >= 0 ? stopPct(i) : '0%';
