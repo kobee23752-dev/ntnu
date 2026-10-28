@@ -479,12 +479,12 @@
   .race-lane:last-child { border-bottom: none; }
   .race-name {
     position: absolute;
-    left: 10px;
+    left: 6px;
     top: 50%;
     transform: translateY(-50%);
     font-size: 11.5px;
     font-weight: 700;
-    letter-spacing: 3px;
+    letter-spacing: 1px;
     color: rgba(255, 255, 255, 0.92);
     z-index: 1;
   }
@@ -1547,7 +1547,7 @@
   (function(){
     const el = document.getElementById('race');
     if (!el) return;
-    const t0 = new Date('2026-03-01').getTime();
+    const t0 = new Date('2026-02-01').getTime();
     const t1 = new Date('2027-07-31').getTime();
     const pct = d => ((new Date(d).getTime() - t0) / (t1 - t0) * 100).toFixed(2) + '%';
     // 團督日期
