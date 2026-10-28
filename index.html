@@ -441,7 +441,7 @@
   .race-title { font-size: 17px; font-weight: 700; color: var(--accent-deep); margin: 0; letter-spacing: 1px; }
   .race-sub { font-size: 12.5px; color: var(--ink-soft); margin: 2px 0 16px; }
   .race-plot { position: relative; min-width: 780px; margin-left: 12px; margin-right: 86px; }
-  .race-axis { position: relative; height: 44px; }
+  .race-axis { position: relative; height: 64px; }
   .race-ms {
     position: absolute;
     transform: translateX(-50%);
@@ -452,7 +452,10 @@
     letter-spacing: 0.5px;
     line-height: 1.3;
   }
-  .race-ms .dot { display: block; width: 7px; height: 7px; border-radius: 50%; background: var(--mint); margin: 3px auto 0; }
+  .race-ms.exam { color: #9c5143; font-weight: 700; }
+  .race-mark { position: absolute; bottom: 2px; transform: translateX(-50%); line-height: 1; }
+  .race-mark.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--mint); bottom: 4px; }
+  .race-mark.flag { font-size: 12px; }
   .race-lanes {
     position: relative;
     background: linear-gradient(180deg, #c97462, #bf6a58);
@@ -1562,15 +1565,28 @@
       {name:'雅晴', img:'files/avatars/yaqing.jpg',  at:'2026-10-28'},
       {name:'慧馨', img:'files/avatars/huixin.jpg',  at:'2026-10-28'},
       {name:'王潔', img:'files/avatars/wangjie.jpg', at:'2026-10-28'},
-      {name:'雨函', img:'files/avatars/yuhan.jpg',   at:'2026-10-28'},
+      {name:'雨函', img:'files/avatars/yuhan.jpg',   at:'2026-11-09'},
       {name:'彥安', img:'files/avatars/yanan.jpg',   at:'2026-10-28'}
     ];
+    // 日期軸：團督（綠點）與口試（紅旗）合在同一行，標籤自動錯開避免重疊
+    const items = GD.map(d=>({d, type:'gd'}))
+      .concat(EXAMS.map(e=>({d:e.d, type:'exam'})))
+      .sort((a,b)=>a.d.localeCompare(b.d));
+    const BASE = 780, LABEL_W = 40;
+    const rowEnds = [-999, -999, -999];
     let html = '<div class="race-axis">';
-    GD.forEach((d,i)=>{
-      const lab = d.slice(5).replace('-','.');
-      html += '<div class="race-ms" style="left:'+pct(d)+';top:'+(i%2?20:2)+'px;">'+lab+'<span class="dot"></span></div>';
+    items.forEach(it=>{
+      const x = parseFloat(pct(it.d)) / 100 * BASE;
+      let lvl = rowEnds.findIndex(e => x - e >= LABEL_W);
+      if (lvl < 0) lvl = 2;
+      rowEnds[lvl] = x;
+      const lab = it.d.slice(5).replace('-','.');
+      html += '<div class="race-ms '+it.type+'" style="left:'+pct(it.d)+';top:'+(4+lvl*15)+'px;">'+lab+'</div>';
+      html += it.type==='exam'
+        ? '<div class="race-mark flag" style="left:'+pct(it.d)+';">🚩</div>'
+        : '<div class="race-mark dot" style="left:'+pct(it.d)+';"></div>';
     });
-    html += '<div class="race-ms" style="left:100%;top:2px;font-weight:700;color:var(--accent-deep);">畢業 🎓<br>2027.5-7</div>';
+    html += '<div class="race-ms" style="left:100%;top:4px;font-weight:700;color:var(--accent-deep);">畢業 🎓<br>2027.5-7</div>';
     html += '</div><div class="race-lanes">';
     GD.forEach(d=>{ html += '<div class="race-vline" style="left:'+pct(d)+';"></div>'; });
     EXAMS.forEach(e=>{ html += '<div class="race-vline exam" style="left:'+pct(e.d)+';"></div>'; });
@@ -1580,10 +1596,6 @@
             + '<div class="race-runner" data-to="'+pct(r.at)+'"><img src="'+r.img+'" alt="'+r.name+'"></div></div>';
     });
     html += '<div class="race-teacher"><img src="files/avatars/teacher.jpg" alt="美貴老師">美貴老師</div>';
-    html += '</div><div class="race-exams">';
-    EXAMS.forEach((e,i)=>{
-      html += '<div class="race-ms" style="left:'+pct(e.d)+';top:'+(i%2?22:4)+'px;color:#9c5143;">🚩 '+e.label+'</div>';
-    });
     html += '</div>';
     el.innerHTML = html;
     setTimeout(()=>{
