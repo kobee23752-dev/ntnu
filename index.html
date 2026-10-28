@@ -441,7 +441,7 @@
   .race-title { font-size: 17px; font-weight: 700; color: var(--accent-deep); margin: 0; letter-spacing: 1px; }
   .race-sub { font-size: 12.5px; color: var(--ink-soft); margin: 2px 0 16px; }
   .race-plot { position: relative; min-width: 780px; margin-left: 12px; margin-right: 86px; }
-  .race-axis { position: relative; height: 64px; }
+  .race-axis { position: relative; height: 40px; }
   .race-ms {
     position: absolute;
     transform: translateX(-50%);
@@ -1554,18 +1554,29 @@
   (function(){
     const el = document.getElementById('race');
     if (!el) return;
-    const t0 = new Date('2026-02-01').getTime();
-    const t1 = new Date('2027-07-31').getTime();
-    const pct = d => ((new Date(d).getTime() - t0) / (t1 - t0) * 100).toFixed(2) + '%';
-    // 團督日期
-    const GD = ['2026-03-23','2026-04-20','2026-05-18','2026-06-08','2026-07-30',
-                '2026-08-26','2026-09-30','2026-10-28','2026-11-25','2026-12-28'];
-    // 口試
-    const EXAMS = [
-      {d:'2026-11-09', label:'11.09 雨函計畫書口試'},
-      {d:'2026-12-23', label:'12.23 口試'},
-      {d:'2026-12-24', label:'12.24 口試'}
+    // 里程碑站點（等距排列，日期全部對齊同一行）
+    // dates 可以放多個日期共用同一站（例如 12.23-24）
+    const STOPS = [
+      {dates:['2026-03-23'], label:'03.23', type:'gd'},
+      {dates:['2026-04-20'], label:'04.20', type:'gd'},
+      {dates:['2026-05-18'], label:'05.18', type:'gd'},
+      {dates:['2026-06-08'], label:'06.08', type:'gd'},
+      {dates:['2026-07-30'], label:'07.30', type:'gd'},
+      {dates:['2026-08-26'], label:'08.26', type:'gd'},
+      {dates:['2026-09-30'], label:'09.30', type:'gd'},
+      {dates:['2026-10-28'], label:'10.28', type:'gd'},
+      {dates:['2026-11-09'], label:'11.09', type:'exam'},
+      {dates:['2026-11-25'], label:'11.25', type:'gd'},
+      {dates:['2026-12-23','2026-12-24'], label:'12.23-24', type:'exam'},
+      {dates:['2026-12-28'], label:'12.28', type:'gd'}
     ];
+    const START = 7;
+    const step = (100 - START) / STOPS.length;
+    const stopPct = i => (START + i * step).toFixed(2) + '%';
+    const pct = d => {
+      const i = STOPS.findIndex(s => s.dates.indexOf(d) >= 0);
+      return i >= 0 ? stopPct(i) : '0%';
+    };
     // 進度更新改這裡：把 at 改成誰目前跑到的日期
     const RUNNERS = [
       {name:'欣妤', img:'files/avatars/xinyu.jpg',   at:'2026-10-28'},
@@ -1575,28 +1586,18 @@
       {name:'雨函', img:'files/avatars/yuhan.jpg',   at:'2026-11-09'},
       {name:'彥安', img:'files/avatars/yanan.jpg',   at:'2026-10-28'}
     ];
-    // 日期軸：團督（綠點）與口試（紅旗）合在同一行，標籤自動錯開避免重疊
-    const items = GD.map(d=>({d, type:'gd'}))
-      .concat(EXAMS.map(e=>({d:e.d, type:'exam'})))
-      .sort((a,b)=>a.d.localeCompare(b.d));
-    const BASE = 780, LABEL_W = 40;
-    const rowEnds = [-999, -999, -999];
     let html = '<div class="race-axis">';
-    items.forEach(it=>{
-      const x = parseFloat(pct(it.d)) / 100 * BASE;
-      let lvl = rowEnds.findIndex(e => x - e >= LABEL_W);
-      if (lvl < 0) lvl = 2;
-      rowEnds[lvl] = x;
-      const lab = it.d.slice(5).replace('-','.');
-      html += '<div class="race-ms '+it.type+'" style="left:'+pct(it.d)+';top:'+(4+lvl*15)+'px;">'+lab+'</div>';
-      html += it.type==='exam'
-        ? '<div class="race-mark flag" style="left:'+pct(it.d)+';">🚩</div>'
-        : '<div class="race-mark dot" style="left:'+pct(it.d)+';"></div>';
+    STOPS.forEach((s,i)=>{
+      html += '<div class="race-ms '+s.type+'" style="left:'+stopPct(i)+';top:4px;">'+s.label+'</div>';
+      html += s.type==='exam'
+        ? '<div class="race-mark flag" style="left:'+stopPct(i)+';">🚩</div>'
+        : '<div class="race-mark dot" style="left:'+stopPct(i)+';"></div>';
     });
     html += '<div class="race-ms" style="left:100%;top:4px;font-weight:700;color:var(--accent-deep);">畢業 🎓<br>2027.5-7</div>';
     html += '</div><div class="race-lanes">';
-    GD.forEach(d=>{ html += '<div class="race-vline" style="left:'+pct(d)+';"></div>'; });
-    EXAMS.forEach(e=>{ html += '<div class="race-vline exam" style="left:'+pct(e.d)+';"></div>'; });
+    STOPS.forEach((s,i)=>{
+      html += '<div class="race-vline'+(s.type==='exam'?' exam':'')+'" style="left:'+stopPct(i)+';"></div>';
+    });
     html += '<div class="race-goal-line"></div>';
     RUNNERS.forEach(r=>{
       html += '<div class="race-lane"><span class="race-name">'+r.name+'</span>'
